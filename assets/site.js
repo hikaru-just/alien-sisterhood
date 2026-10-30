@@ -5,12 +5,6 @@
 const FORMSPREE_ID = "xgaazjpy";              // e.g. "xyzabcd" from https://formspree.io/f/xyzabcd
 const CONTACT_EMAIL = "hikarujustart@gmail.com";
 
-/* ---- 2. Zine checkout: paste each Stripe payment link (https://buy.stripe.com/...) here.
-        Until a link is filled in, that zine's "Buy now" button goes to the contact form. ---- */
-const PAY_LINKS = {
-  "tmd-vol-2": "",   // Trash Moon Diaries Vol. 2
-  "tmd-vol-1": "",   // Trash Moon Diaries Vol. 1
-};
 
 const SPARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.3 5.7 11.4 12 12-6.3.6-11.4 5.7-12 12-.6-6.3-5.7-11.4-12-12C6.3 11.4 11.4 6.3 12 0z"/></svg>';
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -112,19 +106,33 @@ document.querySelectorAll("form[data-contact]").forEach(form => {
         form.reset(); note.textContent = "Thank you! We'll be in touch within 24 hours.";
       } catch { note.textContent = "Something went wrong. Please email " + CONTACT_EMAIL + "."; }
     } else {
-      const body = `${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
-      location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Project inquiry from " + d.first_name)}&body=${encodeURIComponent(body)}`;
+      const body = `${d.zine ? "Zine: " + zineSelect.selectedOptions[0].textContent + "\n\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
+      location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent((d._subject || "Website message") + " from " + d.first_name)}&body=${encodeURIComponent(body)}`;
       note.textContent = "Opening your email app…";
     }
   });
 });
 
-/* zine checkout buttons */
-document.querySelectorAll("[data-pay]").forEach(a => {
-  const url = PAY_LINKS[a.dataset.pay];
-  if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Buy now ↗"; }
-  else { a.textContent = "Ask to buy"; }
-});
+/* zine order page: pre-fill the zine from the "Ask to buy" link */
+const zineSelect = document.getElementById("order-zine");
+if (zineSelect) {
+  const msg = document.getElementById("order-message");
+  const cover = document.getElementById("order-cover");
+  let edited = false;
+  msg.addEventListener("input", () => edited = true);
+  const sync = () => {
+    const opt = zineSelect.selectedOptions[0];
+    if (!edited) msg.value = zineSelect.value === "other"
+      ? "Hi Hikaru! I'd like to ask about "
+      : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
+    cover.parentElement.hidden = !opt.dataset.cover;
+    if (opt.dataset.cover) { cover.src = opt.dataset.cover; cover.alt = "Cover of " + opt.textContent; }
+  };
+  const wanted = new URLSearchParams(location.search).get("zine");
+  if (wanted && zineSelect.querySelector(`option[value="${CSS.escape(wanted)}"]`)) zineSelect.value = wanted;
+  zineSelect.addEventListener("change", sync);
+  sync();
+}
 
 /* newsletter: hand the email to Substack's signup page */
 document.querySelectorAll("form[data-subscribe]").forEach(f => f.addEventListener("submit", () => {

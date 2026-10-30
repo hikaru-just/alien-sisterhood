@@ -185,11 +185,13 @@ p+p{margin-top:.9em}
 .product .body{padding:24px;display:flex;flex-direction:column;gap:10px;flex:1}
 .product h3{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;color:var(--purple)}
 .product p{font-size:16px}
-.product .row{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px}
+.product .row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:auto;padding-top:16px}
+.btn.small{min-height:42px;padding:0 20px;font-size:15px;white-space:nowrap}
+.products.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .price{font-family:var(--pixel);font-size:18px;color:var(--ink)}
 .badge{font-family:var(--pixel);font-size:12px;background:var(--lime);color:var(--night);border-radius:99px;padding:4px 10px;align-self:flex-start}
 
-.shelf{padding-top:20px}
+.shelf{padding:70px 0 110px}
 .shelf + .shelf{padding-top:70px}
 .shelf-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 30px;margin-bottom:30px}
 .how{display:flex;gap:10px;align-items:baseline;max-width:34em;font-size:16px}
@@ -216,6 +218,15 @@ textarea.field{min-height:150px;resize:vertical}
 .check{display:flex!important;grid-template-columns:none;align-items:center;gap:10px}
 .check input{width:18px;height:18px;accent-color:var(--pink)}
 .form-note{font-size:15px;min-height:1.4em}
+
+/* ---------- zine order ---------- */
+.order{padding:150px 0 100px}
+.order .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,6vw,80px);align-items:start;position:relative;z-index:2}
+.order .lede{margin-top:20px;opacity:.92}
+.order-cover{margin-top:34px;max-width:300px}
+.order-cover img{border-radius:14px;transform:rotate(-3deg);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+select.field{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--moon) 50%),linear-gradient(135deg,var(--moon) 50%,transparent 50%);background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:44px}
+select.field option{color:#000}
 
 /* ---------- blog ---------- */
 .post{max-width:720px;margin-inline:auto;padding-bottom:100px}
@@ -261,20 +272,45 @@ textarea.field{min-height:150px;resize:vertical}
   .nav-open .menu-btn span:nth-child(1){transform:translateY(8px) rotate(45deg)}
   .nav-open .menu-btn span:nth-child(2){opacity:0}
   .nav-open .menu-btn span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-  .hero{padding-top:100px;min-height:auto}
-  .hero .wrap,.feature .wrap,.zines .wrap,.commission .wrap,.contact .wrap,.about-grid,.foot-top{grid-template-columns:1fr}
-  .hero-copy{padding-bottom:10px}
-  .hero-art{width:min(420px,92%)}
-  .curve{top:70px}
-  .tile{max-width:380px;margin-inline:auto}
-  .commission .art{max-width:320px;margin-inline:auto}
-  .about-grid .photo{position:static;max-width:420px}
-  .series-head{grid-template-columns:96px 1fr;gap:20px}
-  .page-head{padding:120px 0 50px}
+  .site-header .wrap{height:70px}
+  .hero .wrap,.feature .wrap,.zines .wrap,.commission .wrap,.contact .wrap,.order .wrap,.about-grid,.foot-top{grid-template-columns:1fr}
+  .products.three{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{padding-top:92px;min-height:auto}
+  .hero-copy{padding-bottom:0}
+  .hero-art{width:min(360px,82%)}
+  .curve{top:62px}
+  .strip{padding:32px 0}
+  .strip-track{gap:14px}
+  .strip-track a{width:150px}
+  .statement,.feature,.zines,.contact{padding:64px 0}
+  .commission{padding-top:64px}
+  .feature .wrap,.zines .wrap{gap:32px}
+  .tile{max-width:240px;margin-inline:auto}
+  .fan{height:260px;max-width:360px;width:100%;margin-inline:auto}
+  .commission .wrap{gap:8px}
+  .commission .copy{padding-bottom:60px}
+  .commission .art{order:-1;max-width:220px;margin-inline:auto}
+  .about-grid{padding-bottom:64px}
+  .about-grid .photo{position:static;max-width:340px;order:-1}
+  .series{padding:56px 0}
+  .series-head{grid-template-columns:96px 1fr;gap:20px;margin-bottom:28px}
+  .page-head{padding:104px 0 44px}
+  .order{padding:104px 0 64px}
+  .order-cover{max-width:200px;margin-top:24px}
+  .shelf{padding:48px 0 72px}
+  .site-footer{padding:64px 0 32px}
+  .foot-top{gap:36px;padding-bottom:40px}
+  .btns{margin-top:22px}
   .stars i:nth-of-type(2n){display:none}
 }
 @media (max-width:560px){
   .form .two{grid-template-columns:1fr}
+  .products.three{grid-template-columns:1fr;max-width:400px;margin-inline:auto}
+  .btn{min-height:48px;padding:0 22px}
+  .btn.small{min-height:42px}
+  h1.display{font-size:clamp(40px,11vw,56px)}
+  h2.display{font-size:clamp(32px,9vw,44px)}
+  .lede{font-size:17px}
   .foot-links{grid-template-columns:1fr 1fr}
   .cards{grid-template-columns:1fr 1fr;gap:22px 14px}
   .card h3{font-size:15px}

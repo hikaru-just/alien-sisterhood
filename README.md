@@ -8,7 +8,8 @@ A plain HTML/CSS site, ready for GitHub Pages. No build step, nothing to install
 |---|---|---|
 | Home | `index.html` | |
 | Stories & Art | `work/index.html` | Combines the old Essay Portfolio and Art Portfolio, with filters |
-| Zines | `shop/index.html` | Was "Shop" |
+| Zine Shop | `shop/index.html` | Was "Shop" |
+| Zine order | `inquire/index.html` | Opens from "Ask to buy", with the zine already filled in |
 | About + Contact | `about/index.html` | Contact form lives at the bottom (`about/index.html#contact`) |
 | Journal | `blogs/` | Kept for search traffic, not in the menu (linked from the footer) |
 | Not found | `404.html` | |
@@ -33,17 +34,11 @@ Old Squarespace addresses (`/essayportfolio`, `/artportfolio`, `/contact`, `/car
 ## Before cancelling Squarespace
 
 - [ ] **Images.** Most portfolio images still load from Squarespace's servers. Run `python3 tools/download-images.py` from this folder to copy them all locally and update the pages, then upload the changed files.
-- [ ] **Zine checkout.** Add the Stripe payment links (below).
 - [ ] **Domain.** If the domain is registered through Squarespace, either keep it there and just change the DNS records, or transfer it out first.
 
-## Zine checkout (Stripe payment links)
+## Zine orders
 
-1. Sign in at dashboard.stripe.com (or create an account and finish the business and bank details).
-2. Go to **Product catalog → Add product** and create one product per zine (name, $5.00, a cover image).
-3. Go to **Payment links → New**, pick the product. Turn on **Collect customers' email** if it isn't already on (it usually is), and, for paper zines, **Collect customers' addresses**. Create the link.
-4. Copy each link (it starts with `https://buy.stripe.com/`) into `PAY_LINKS` at the top of `assets/site.js`.
-
-Until a link is filled in, that zine's button says "Ask to buy" and goes to the contact form. Each sale shows up in Stripe with the buyer's email, so you know where to send the zine.
+Orders are handled by hand. "Ask to buy" opens the zine order page with that zine selected and a message already written. The visitor adds their name and email and sends it. It arrives in Gmail through Formspree with the subject "Zine order inquiry", and Hikaru replies with how to pay.
 
 ## Contact form (Formspree)
 
@@ -65,6 +60,6 @@ The "Stay in the loop" box sends the email to the Alien Sisterhood Substack sign
 - **Text:** open the page's `index.html` in any text editor and change the words between the tags.
 - **Colors and fonts:** the top of `assets/style.css` (`--pink`, `--lime`, `--night`, and so on).
 - **New artwork:** add the image to `images/`, then copy one `<button …>` line in the art grid in `work/index.html` and change the two image paths.
-- **New zine for sale:** create its Stripe payment link, then copy an `<article class="product">` block in `shop/index.html` and add its key to `PAY_LINKS` in `assets/site.js`.
+- **New zine for sale:** copy an `<article class="product">` block in `shop/index.html` (change the cover, title, price and the `?zine=` name in its link), then add a matching `<option>` with the same name to the zine list in `inquire/index.html`.
 - **New story:** copy one `<a class="card" …>` block in `work/index.html` and change the cover, title and link.
 - **Preview locally:** open `index.html` in a browser. All links work from your computer too.
