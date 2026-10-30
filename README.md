@@ -33,7 +33,7 @@ Old Squarespace addresses (`/essayportfolio`, `/artportfolio`, `/contact`, `/car
 
 ## Before cancelling Squarespace
 
-- [ ] **Images.** Most portfolio images still load from Squarespace's servers. Run `python3 tools/download-images.py` from this folder to copy them all locally and update the pages, then upload the changed files.
+- [x] **Images.** All images now live in `images/` (portfolio pieces in `images/portfolio/`), so nothing loads from Squarespace.
 - [ ] **Domain.** If the domain is registered through Squarespace, either keep it there and just change the DNS records, or transfer it out first.
 
 ## Zine orders
