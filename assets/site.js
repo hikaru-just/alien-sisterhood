@@ -82,7 +82,7 @@ if (box) {
   }));
   document.querySelectorAll("[data-gallery]").forEach(b => b.addEventListener("click", () => {
     const t = b.dataset.title || "";
-    const names = ["Cover", "Title page", "Dedication", "Page 1", "Page 2"];
+    const names = ["Cover", "Dedication", "Page 1", "Page 2", "Back cover"];
     open(b.dataset.gallery.split(",").map((src, i) => ({ src, alt: `${t}: ${names[i] || "page " + (i + 1)}` })), 0);
   }));
   box.querySelector(".close").onclick = () => box.close();
