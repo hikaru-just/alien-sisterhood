@@ -75,15 +75,15 @@ if (box) {
     idx = (i + list.length) % list.length;
     img.src = list[idx].src; img.alt = list[idx].alt;
   };
-  const open = (items, i) => { list = items; show(i); box.showModal(); };
+  const open = (items, i) => { list = items; box.toggleAttribute("data-single", items.length < 2); show(i); box.showModal(); };
   document.querySelectorAll(".art-grid button").forEach(b => b.addEventListener("click", () => {
     const btns = [...document.querySelectorAll(".art-grid button:not([hidden])")];
     open(btns.map(x => ({ src: x.dataset.full, alt: x.querySelector("img").alt })), btns.indexOf(b));
   }));
   document.querySelectorAll("[data-gallery]").forEach(b => b.addEventListener("click", () => {
     const t = b.dataset.title || "";
-    const names = ["Cover", "Dedication", "Page 1", "Page 2", "Back cover"];
-    open(b.dataset.gallery.split(",").map((src, i) => ({ src, alt: `${t}: ${names[i] || "page " + (i + 1)}` })), 0);
+    const names = b.dataset.names ? [b.dataset.names] : ["Cover", "Dedication", "Page 1", "Page 2", "Back cover"];
+    open(b.dataset.gallery.split(",").map((src, i) => ({ src, alt: b.dataset.names ? t : `${t}: ${names[i] || "page " + (i + 1)}` })), 0);
   }));
   box.querySelector(".close").onclick = () => box.close();
   box.querySelector(".prev").onclick = () => show(idx - 1);
@@ -132,15 +132,18 @@ if (zineSelect) {
   const sync = () => {
     const opt = zineSelect.selectedOptions[0];
     const print = opt.dataset.print;
-    const name = opt.textContent.replace(/ \(print\)$/, "");
+    const art = opt.dataset.kind === "art";
+    const name = opt.textContent.replace(/ \((print|art print[^)]*)\)$/, "");
     if (!edited) msg.value = zineSelect.value === "other"
       ? "Hi Hikaru! I'd like to ask about "
-      : print
-        ? `Hi Hikaru! I'd like to buy a printed copy of ${name} ($${print} + shipping).`
-        : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
+      : art
+        ? `Hi Hikaru! I'd like to buy the ${name} art print ($${print} + shipping).`
+        : print
+          ? `Hi Hikaru! I'd like to buy a printed copy of ${name} ($${print} + shipping).`
+          : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
     if (ship) { ship.hidden = !print; ship.querySelector("input").disabled = !print; }
     if (printNote) printNote.hidden = !print;
-    if (subject) subject.value = print ? "Printed zine order: " + name : "Zine order inquiry";
+    if (subject) subject.value = art ? "Art print order: " + name : print ? "Printed zine order: " + name : "Zine order inquiry";
     cover.parentElement.hidden = !opt.dataset.cover;
     if (opt.dataset.cover) { cover.src = opt.dataset.cover; cover.alt = "Cover of " + opt.textContent; }
   };

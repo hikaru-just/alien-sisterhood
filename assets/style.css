@@ -335,3 +335,5 @@ select.field option{color:#000}
   .reveal{opacity:1;transform:none}
 }
 .form [hidden]{display:none}
+
+.lightbox[data-single] .nav-arrow{display:none}
