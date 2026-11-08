@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zine Order — Alien Sisterhood</title>
-<meta name="description" content="Ask to buy a Trash Moon Diaries zine from Alien Sisterhood.">
+<meta name="description" content="Ask to buy a printed or digital Trash Moon Diaries zine from Alien Sisterhood.">
 <link rel="canonical" href="https://www.aliensisterhood.com/inquire/">
 <meta property="og:title" content="Zine Order — Alien Sisterhood">
-<meta property="og:description" content="Ask to buy a Trash Moon Diaries zine from Alien Sisterhood.">
+<meta property="og:description" content="Ask to buy a printed or digital Trash Moon Diaries zine from Alien Sisterhood.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Alien Sisterhood">
 <meta property="og:image" content="https://www.aliensisterhood.com/images/og.jpg">
@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,400&family=Shrikhand&family=Silkscreen&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=5">
+<link rel="stylesheet" href="../assets/style.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -41,12 +41,14 @@
     <form class="form" data-contact data-order>
       <input type="hidden" name="_subject" value="Zine order inquiry">
       <label><span>Zine</span>
-        <select class="field" id="order-zine" name="zine"><option value="tmd-vol-2" data-cover="../images/portfolio/1-c61d6c.webp">Trash Moon Diaries Vol. 2</option><option value="tmd-vol-1" data-cover="../images/portfolio/1-eb4f49.webp">Trash Moon Diaries Vol. 1</option><option value="other" data-cover="">Something else</option></select></label>
+        <select class="field" id="order-zine" name="zine"><optgroup label="Printed zines"><option value="print-unemployed" data-cover="../images/shop/unemployed-cover-sm.webp" data-print="11">The Summer I Was Unemployed (print)</option><option value="print-desert" data-cover="../images/shop/desert-cover-sm.webp" data-print="11">Drinking in the Desert (print)</option><option value="print-male-loneliness" data-cover="../images/shop/male-loneliness-cover-sm.webp" data-print="9">Astrology and Male Loneliness (print)</option><option value="print-lover-girl" data-cover="../images/shop/lover-girl-cover-sm.webp" data-print="9">The Day I Killed the Lover Girl in Me (print)</option><option value="print-inner-child" data-cover="../images/shop/inner-child-cover-sm.webp" data-print="9">How to Heal Your Inner Child (print)</option><option value="print-vampire" data-cover="../images/shop/vampire-cover-sm.webp" data-print="11">A Meeting with a Vampire (print)</option></optgroup><optgroup label="Digital zines"><option value="tmd-vol-2" data-cover="../images/portfolio/1-c61d6c.webp">Trash Moon Diaries Vol. 2</option><option value="tmd-vol-1" data-cover="../images/portfolio/1-eb4f49.webp">Trash Moon Diaries Vol. 1</option></optgroup><option value="other" data-cover="">Something else</option></select></label>
       <div class="two">
         <label><span>First name <small>(required)</small></span><input class="field" id="order-first" name="first_name" autocomplete="given-name" required></label>
         <label><span>Last name <small>(required)</small></span><input class="field" id="order-last" name="last_name" autocomplete="family-name" required></label>
       </div>
       <label><span>Email <small>(required)</small></span><input class="field" id="order-email" type="email" name="email" autocomplete="email" required></label>
+      <label id="order-ship"><span>Shipping to <small>(city, state/region, country)</small></span><input class="field" name="ship_to" autocomplete="address-level2" placeholder="e.g. Austin, TX, USA"></label>
+      <p class="order-print-note" id="order-print-note">Printed zine: I'll email you a payment link with your exact shipping rate. Please allow up to 3 business days for handling once paid.</p>
       <label><span>Message</span><textarea class="field" id="order-message" name="message" required></textarea></label>
       <div><button class="btn lime" type="submit">Send inquiry</button></div>
       <p class="form-note" role="status" aria-live="polite"></p>
@@ -85,6 +87,6 @@
     <div class="foot-bottom"><span>© <span data-year>2026</span> Alien Sisterhood. All artwork ©Alien Sisterhood — please do not repost, reproduce, or use without permission.</span><span>Human stories meet cosmos <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.3 5.7 11.4 12 12-6.3.6-11.4 5.7-12 12-.6-6.3-5.7-11.4-12-12C6.3 11.4 11.4 6.3 12 0z"/></svg></span></div>
   </div>
 </footer>
-<script src="../assets/site.js?v=5" defer></script>
+<script src="../assets/site.js?v=6" defer></script>
 </body>
 </html>

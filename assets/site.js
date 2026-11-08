@@ -66,18 +66,24 @@ document.querySelectorAll("[data-filter-group]").forEach(group => {
   });
 });
 
-/* lightbox for artwork */
+/* lightbox for artwork and zine "look inside" galleries */
 const box = document.querySelector(".lightbox");
 if (box) {
   const img = box.querySelector("img");
   let list = [], idx = 0;
   const show = i => {
     idx = (i + list.length) % list.length;
-    const b = list[idx]; img.src = b.dataset.full; img.alt = b.querySelector("img").alt;
+    img.src = list[idx].src; img.alt = list[idx].alt;
   };
+  const open = (items, i) => { list = items; show(i); box.showModal(); };
   document.querySelectorAll(".art-grid button").forEach(b => b.addEventListener("click", () => {
-    list = [...document.querySelectorAll(".art-grid button:not([hidden])")];
-    show(list.indexOf(b)); box.showModal();
+    const btns = [...document.querySelectorAll(".art-grid button:not([hidden])")];
+    open(btns.map(x => ({ src: x.dataset.full, alt: x.querySelector("img").alt })), btns.indexOf(b));
+  }));
+  document.querySelectorAll("[data-gallery]").forEach(b => b.addEventListener("click", () => {
+    const t = b.dataset.title || "";
+    const names = ["Cover", "Title page", "Dedication", "Page 1", "Page 2"];
+    open(b.dataset.gallery.split(",").map((src, i) => ({ src, alt: `${t}: ${names[i] || "page " + (i + 1)}` })), 0);
   }));
   box.querySelector(".close").onclick = () => box.close();
   box.querySelector(".prev").onclick = () => show(idx - 1);
@@ -106,7 +112,7 @@ document.querySelectorAll("form[data-contact]").forEach(form => {
         form.reset(); note.textContent = "Thank you! We'll be in touch within 24 hours.";
       } catch { note.textContent = "Something went wrong. Please email " + CONTACT_EMAIL + "."; }
     } else {
-      const body = `${d.zine ? "Zine: " + zineSelect.selectedOptions[0].textContent + "\n\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
+      const body = `${d.zine ? "Zine: " + zineSelect.selectedOptions[0].textContent + "\n" : ""}${d.ship_to ? "Shipping to: " + d.ship_to + "\n" : ""}${d.zine ? "\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
       location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent((d._subject || "Website message") + " from " + d.first_name)}&body=${encodeURIComponent(body)}`;
       note.textContent = "Opening your email app…";
     }
@@ -120,11 +126,21 @@ if (zineSelect) {
   const cover = document.getElementById("order-cover");
   let edited = false;
   msg.addEventListener("input", () => edited = true);
+  const ship = document.getElementById("order-ship");
+  const printNote = document.getElementById("order-print-note");
+  const subject = zineSelect.form.querySelector('[name="_subject"]');
   const sync = () => {
     const opt = zineSelect.selectedOptions[0];
+    const print = opt.dataset.print;
+    const name = opt.textContent.replace(/ \(print\)$/, "");
     if (!edited) msg.value = zineSelect.value === "other"
       ? "Hi Hikaru! I'd like to ask about "
-      : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
+      : print
+        ? `Hi Hikaru! I'd like to buy a printed copy of ${name} ($${print} + shipping).`
+        : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
+    if (ship) { ship.hidden = !print; ship.querySelector("input").disabled = !print; }
+    if (printNote) printNote.hidden = !print;
+    if (subject) subject.value = print ? "Printed zine order: " + name : "Zine order inquiry";
     cover.parentElement.hidden = !opt.dataset.cover;
     if (opt.dataset.cover) { cover.src = opt.dataset.cover; cover.alt = "Cover of " + opt.textContent; }
   };
