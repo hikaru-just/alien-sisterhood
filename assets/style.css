@@ -365,3 +365,22 @@ select.field option{color:#000}
 .review-total strong{font-family:var(--pixel);font-weight:400;font-size:18px;color:var(--lime)}
 .review-total[hidden],.review-empty[hidden]{display:none}
 @media (max-width:900px){.order-covers{max-width:220px;height:calc(240px + (var(--count,1) - 1) * 34px)}.order-covers img{top:calc(var(--n) * 34px)}}
+/* "add more" carousel on the order page */
+.more-shelf{padding:10px 0 110px;position:relative}
+.more-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px}
+.more-head .display{font-size:clamp(30px,4vw,46px)}
+.more-arrows{display:flex;gap:10px}
+.more-arrow{width:48px;height:48px;border-radius:50%;border:2px solid rgba(239,228,251,.35);background:transparent;color:var(--moon);font-size:24px;cursor:pointer}
+.more-arrow:hover{border-color:var(--lime);color:var(--lime)}
+.more-track{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:clamp(190px,22vw,240px);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;scrollbar-width:thin;scrollbar-color:var(--night-2) transparent}
+.more-card{scroll-snap-align:start;display:flex;flex-direction:column;gap:6px}
+.more-img{border:0;padding:14px;background:var(--night-2);border-radius:18px;aspect-ratio:4/5;display:grid;place-items:center;cursor:pointer;transition:transform .25s}
+.more-img:hover{transform:translateY(-4px)}
+.more-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+.more-kind{font-family:var(--pixel);font-size:11px;color:var(--lime);margin-top:6px}
+.more-name{font-family:var(--body);font-weight:400;font-size:16px;line-height:1.3;color:var(--moon)}
+.more-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:6px}
+.night .more-row .price{color:var(--moon)}
+.more-row .btn.small{min-height:38px;padding:0 14px;font-size:14px}
+.more-row .btn[disabled]{background:transparent;color:var(--lime);cursor:default}
+@media (max-width:600px){.more-arrows{display:none}.more-track{grid-auto-columns:62%}.more-shelf{padding-bottom:72px}}

@@ -153,7 +153,7 @@ if (zineSelect) {
       physical: !!o.dataset.print };
   };
   const esc = t => t.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const render = () => {
+  let render = () => {
     save(cart);
     const items = cart.map(c => ({ ...info(c.id), qty: c.qty }));
     list.innerHTML = items.map(i => `<li class="review-item">
@@ -195,6 +195,38 @@ if (zineSelect) {
   if (wanted && opts[wanted] && !cart.some(c => c.id === wanted)) cart.push({ id: wanted, qty: 1 });
   if (wanted) history.replaceState(null, "", location.pathname);
   render();
+  /* carousel of every product at the bottom of the page */
+  const track = document.getElementById("more-track");
+  const paintTrack = () => {
+    if (!track) return;
+    track.querySelectorAll("[data-add]").forEach(btn => {
+      const id = btn.dataset.add, i = info(id), hit = cart.find(c => c.id === id);
+      const full = hit && hit.qty >= i.max;
+      btn.disabled = full;
+      btn.textContent = full ? "Added ✓" : hit ? `Add another (${hit.qty})` : "Add to order";
+    });
+  };
+  if (track) {
+    track.innerHTML = Object.keys(opts).filter(id => id !== "other" && opts[id].dataset.cover).map(id => {
+      const i = info(id);
+      const kind = i.o.dataset.kind === "art" ? "Art print" : i.physical ? "Printed zine" : "Digital zine";
+      return `<li class="more-card"><button type="button" class="more-img" data-add-img="${id}" aria-label="Add ${esc(i.title)}"><img src="${i.cover}" alt="" loading="lazy"></button>
+        <p class="more-kind">${kind}</p><h3 class="more-name">${esc(i.title)}</h3>
+        <p class="more-row"><span class="price">$${i.price}</span><button type="button" class="btn small lime" data-add="${id}">Add to order</button></p></li>`;
+    }).join("");
+    track.addEventListener("click", e => {
+      const id = e.target.closest("[data-add],[data-add-img]")?.dataset; if (!id) return;
+      const key = id.add || id.addImg; const hit = cart.find(c => c.id === key);
+      if (hit && hit.qty >= info(key).max) return;
+      add(key);
+      document.getElementById("order-review").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    });
+    document.querySelectorAll(".more-arrow").forEach(b => b.addEventListener("click", () =>
+      track.scrollBy({ left: +b.dataset.dir * track.clientWidth * .8, behavior: reduce ? "auto" : "smooth" })));
+  }
+  const _render = render;
+  render = () => { _render(); paintTrack(); };
+  paintTrack();
   cartApi = { count: () => cart.length, clear: () => { cart = []; edited = false; render(); } };
 }
 
