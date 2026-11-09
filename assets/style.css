@@ -417,3 +417,4 @@ select.field option{color:#000}
 .mail-band .wrap{max-width:760px}
 .mail-band .label,.mail-band .btns{justify-content:center}
 .mail-band .lede{margin:20px auto 0}
+.plan-desc a{color:var(--lime)}
