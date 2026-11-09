@@ -133,7 +133,7 @@ if (zineSelect) {
     const opt = zineSelect.selectedOptions[0];
     const print = opt.dataset.print;
     const art = opt.dataset.kind === "art";
-    const name = opt.textContent.replace(/ \((print|art print[^)]*)\)$/, "");
+    const name = opt.textContent.replace(/ \((printed zine|print|art print[^)]*)\)$/, "");
     if (!edited) msg.value = zineSelect.value === "other"
       ? "Hi Hikaru! I'd like to ask about "
       : art
