@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,400&family=Shrikhand&family=Silkscreen&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=12">
+<link rel="stylesheet" href="../assets/style.css?v=13">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -60,6 +60,7 @@
       <label><span>Email <small>(required)</small></span><input class="field" id="order-email" type="email" name="email" autocomplete="email" required></label>
       <fieldset class="ship-fields" id="order-ship">
         <legend>Shipping address</legend>
+        <p class="order-print-note">We currently ship within the U.S. only.</p>
         <label><span>Street address <small>(required)</small></span><input class="field" name="address_line1" autocomplete="address-line1" required></label>
         <label><span>Apt, suite, unit <small>(optional)</small></span><input class="field" name="address_line2" autocomplete="address-line2"></label>
         <div class="two">
@@ -68,7 +69,7 @@
         </div>
         <div class="two">
           <label><span>ZIP / postal code <small>(required)</small></span><input class="field" name="postal_code" autocomplete="postal-code" required></label>
-          <label><span>Country <small>(required)</small></span><input class="field" name="country" autocomplete="country-name" value="United States" required></label>
+          <label><span>Country</span><input class="field" name="country" value="United States" readonly></label>
         </div>
       </fieldset>
       <p class="order-print-note" id="order-print-note">Printed zines &amp; art prints: I'll email you a payment link with your exact shipping rate. Please allow up to 3 business days for handling once paid.</p>

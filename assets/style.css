@@ -387,3 +387,4 @@ select.field option{color:#000}
 .ship-fields{border:0;display:grid;gap:18px;min-width:0}
 .ship-fields[hidden]{display:none}
 .ship-fields legend{font-family:var(--pixel);font-size:14px;letter-spacing:.06em;text-transform:lowercase;color:var(--lime);margin-bottom:4px}
+.field[readonly]{opacity:.7;cursor:default}
