@@ -396,3 +396,7 @@ select.field option{color:#000}
 .sold-out .cover img{filter:grayscale(.6) opacity(.7)}
 .badge-out{background:var(--ink);color:#fff}
 .btn-out{background:transparent;border-color:var(--line);color:var(--ink);opacity:.6;cursor:default}
+.buy-row{flex-wrap:wrap}
+.buy-btns{display:flex;gap:8px;flex-wrap:wrap}
+.product .btn.ghost.small{color:var(--purple);border-color:var(--purple);background:transparent}
+.review-total small{opacity:.7}

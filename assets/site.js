@@ -165,14 +165,18 @@ if (zineSelect) {
     const sum = items.reduce((t, i) => t + i.price * i.qty, 0);
     const anyPhysical = items.some(i => i.physical);
     total.hidden = !items.length;
-    total.innerHTML = `Subtotal <strong>$${sum}</strong>${anyPhysical ? " + shipping" : ""}`;
+    const trackSel = form.querySelector('[name="tracking"]:checked');
+    const shipCost = !anyPhysical ? 0 : trackSel ? (trackSel.value.startsWith("Tracked") ? 15 : 5) : null;
+    total.innerHTML = !anyPhysical ? `Total <strong>$${sum}</strong>`
+      : shipCost === null ? `Subtotal $${sum} + shipping <small>($5, or $15 tracked)</small>`
+      : `Subtotal $${sum} + shipping $${shipCost} = <strong>$${sum + shipCost}</strong>`;
     covers.innerHTML = items.filter(i => i.cover).slice(0, 6).map((i, n) =>
       `<img src="${i.cover}" alt="" style="--n:${n};--r:${n % 2 ? 4 : -4}deg">`).join("");
     covers.style.setProperty("--count", Math.min(6, items.filter(i => i.cover).length));
     if (ship) { ship.hidden = !anyPhysical; ship.disabled = !anyPhysical; }
     if (printNote) printNote.hidden = !anyPhysical;
     const lines = items.map(i => `${i.qty} × ${i.title}${i.id === "other" ? "" : ` (${i.o.dataset.kind === "art" ? "art print" : i.physical ? "printed zine" : "digital zine"})`}${i.price ? `, $${i.price * i.qty}` : ""}`);
-    field.value = lines.join("\n") + (items.length ? `\nSubtotal: $${sum}${anyPhysical ? " + shipping" : ""}` : "");
+    field.value = lines.join("\n") + (items.length ? `\nSubtotal: $${sum}` + (!anyPhysical ? "" : shipCost === null ? " + shipping" : `\nShipping: $${shipCost}\nTotal: $${sum + shipCost}`) : "");
     if (subject) subject.value = items.length ? `Order inquiry: ${items.reduce((t, i) => t + i.qty, 0)} item(s)` : "Order inquiry";
     if (!edited) msg.value = !items.length ? "" : `Hi Hikaru! I'd like to order:\n${lines.map(l => "- " + l).join("\n")}`;
   };
@@ -183,6 +187,7 @@ if (zineSelect) {
     render();
   };
   zineSelect.addEventListener("change", () => { add(zineSelect.value); zineSelect.value = ""; });
+  form.querySelectorAll('[name="tracking"]').forEach(r => r.addEventListener("change", () => render()));
   list.addEventListener("change", e => {
     const id = e.target.dataset.qty; if (!id) return;
     cart.find(c => c.id === id).qty = +e.target.value; render();
