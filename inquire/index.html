@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,400&family=Shrikhand&family=Silkscreen&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=11">
+<link rel="stylesheet" href="../assets/style.css?v=12">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -58,7 +58,19 @@
         <label><span>Last name <small>(required)</small></span><input class="field" id="order-last" name="last_name" autocomplete="family-name" required></label>
       </div>
       <label><span>Email <small>(required)</small></span><input class="field" id="order-email" type="email" name="email" autocomplete="email" required></label>
-      <label id="order-ship"><span>Shipping to <small>(city, state/region, country)</small></span><input class="field" name="ship_to" autocomplete="address-level2" placeholder="e.g. Austin, TX, USA"></label>
+      <fieldset class="ship-fields" id="order-ship">
+        <legend>Shipping address</legend>
+        <label><span>Street address <small>(required)</small></span><input class="field" name="address_line1" autocomplete="address-line1" required></label>
+        <label><span>Apt, suite, unit <small>(optional)</small></span><input class="field" name="address_line2" autocomplete="address-line2"></label>
+        <div class="two">
+          <label><span>City <small>(required)</small></span><input class="field" name="city" autocomplete="address-level2" required></label>
+          <label><span>State / province <small>(required)</small></span><input class="field" name="state" autocomplete="address-level1" required></label>
+        </div>
+        <div class="two">
+          <label><span>ZIP / postal code <small>(required)</small></span><input class="field" name="postal_code" autocomplete="postal-code" required></label>
+          <label><span>Country <small>(required)</small></span><input class="field" name="country" autocomplete="country-name" value="United States" required></label>
+        </div>
+      </fieldset>
       <p class="order-print-note" id="order-print-note">Printed zines &amp; art prints: I'll email you a payment link with your exact shipping rate. Please allow up to 3 business days for handling once paid.</p>
       <label><span>Message</span><textarea class="field" id="order-message" name="message" required></textarea></label>
       <div><button class="btn lime" type="submit">Send inquiry</button></div>
@@ -108,6 +120,6 @@
     <div class="foot-bottom"><span>© <span data-year>2026</span> Alien Sisterhood. All artwork ©Alien Sisterhood — please do not repost, reproduce, or use without permission.</span><span>Human stories meet cosmos <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.3 5.7 11.4 12 12-6.3.6-11.4 5.7-12 12-.6-6.3-5.7-11.4-12-12C6.3 11.4 11.4 6.3 12 0z"/></svg></span></div>
   </div>
 </footer>
-<script src="../assets/site.js?v=12" defer></script>
+<script src="../assets/site.js?v=13" defer></script>
 </body>
 </html>
