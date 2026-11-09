@@ -101,6 +101,11 @@ document.querySelectorAll("form[data-contact]").forEach(form => {
   const note = form.querySelector(".form-note");
   form.addEventListener("submit", async e => {
     e.preventDefault();
+    if (form.hasAttribute("data-order") && cartApi && !cartApi.count()) {
+      note.textContent = "Please add at least one product to your order.";
+      document.getElementById("order-zine").focus();
+      return;
+    }
     const d = Object.fromEntries(new FormData(form));
     if (FORMSPREE_ID) {
       note.textContent = "Sending…";
@@ -109,48 +114,88 @@ document.querySelectorAll("form[data-contact]").forEach(form => {
           method: "POST", headers: { Accept: "application/json" }, body: new FormData(form)
         });
         if (!r.ok) throw 0;
-        form.reset(); note.textContent = "Thank you! We'll be in touch within 24 hours.";
+        form.reset(); if (form.hasAttribute("data-order") && cartApi) cartApi.clear(); note.textContent = "Thank you! We'll be in touch within 24 hours.";
       } catch { note.textContent = "Something went wrong. Please email " + CONTACT_EMAIL + "."; }
     } else {
-      const body = `${d.zine ? "Zine: " + zineSelect.selectedOptions[0].textContent + "\n" : ""}${d.ship_to ? "Shipping to: " + d.ship_to + "\n" : ""}${d.zine ? "\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
+      const body = `${d.order ? "Order:\n" + d.order + "\n" : ""}${d.ship_to ? "Shipping to: " + d.ship_to + "\n" : ""}${d.order ? "\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
       location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent((d._subject || "Website message") + " from " + d.first_name)}&body=${encodeURIComponent(body)}`;
       note.textContent = "Opening your email app…";
     }
   });
 });
 
-/* zine order page: pre-fill the zine from the "Ask to buy" link */
+/* order page: a small cart. Items persist in this browser so "Shop more" keeps them. */
 const zineSelect = document.getElementById("order-zine");
+let cartApi = null;
 if (zineSelect) {
+  const form = zineSelect.form;
+  const KEY = "as-cart";
   const msg = document.getElementById("order-message");
-  const cover = document.getElementById("order-cover");
-  let edited = false;
-  msg.addEventListener("input", () => edited = true);
+  const list = document.getElementById("order-items");
+  const empty = document.getElementById("order-empty");
+  const total = document.getElementById("order-total");
+  const covers = document.getElementById("order-covers");
+  const field = document.getElementById("order-field");
   const ship = document.getElementById("order-ship");
   const printNote = document.getElementById("order-print-note");
-  const subject = zineSelect.form.querySelector('[name="_subject"]');
-  const sync = () => {
-    const opt = zineSelect.selectedOptions[0];
-    const print = opt.dataset.print;
-    const art = opt.dataset.kind === "art";
-    const name = opt.textContent.replace(/ \((printed zine|print|art print[^)]*)\)$/, "");
-    if (!edited) msg.value = zineSelect.value === "other"
-      ? "Hi Hikaru! I'd like to ask about "
-      : art
-        ? `Hi Hikaru! I'd like to buy the ${name} art print ($${print} + shipping).`
-        : print
-          ? `Hi Hikaru! I'd like to buy a printed copy of ${name} ($${print} + shipping).`
-          : `Hi Hikaru! I'd like to buy a copy of ${opt.textContent}.`;
-    if (ship) { ship.hidden = !print; ship.querySelector("input").disabled = !print; }
-    if (printNote) printNote.hidden = !print;
-    if (subject) subject.value = art ? "Art print order: " + name : print ? "Printed zine order: " + name : "Zine order inquiry";
-    cover.parentElement.hidden = !opt.dataset.cover;
-    if (opt.dataset.cover) { cover.src = opt.dataset.cover; cover.alt = "Cover of " + opt.textContent; }
+  const subject = form.querySelector('[name="_subject"]');
+  const opts = {};
+  zineSelect.querySelectorAll("option[value]").forEach(o => { if (o.value) opts[o.value] = o; });
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+  const save = c => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} };
+  let cart = load().filter(i => opts[i.id]);
+  let edited = false;
+  msg.addEventListener("input", () => edited = true);
+  const info = id => {
+    const o = opts[id];
+    return { id, o, name: o.textContent, title: o.textContent.replace(/ \((printed zine|art print[^)]*)\)$/, ""),
+      price: +o.dataset.price || 0, max: +o.dataset.stock || 1, cover: o.dataset.cover || "",
+      physical: !!o.dataset.print };
   };
+  const esc = t => t.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const render = () => {
+    save(cart);
+    const items = cart.map(c => ({ ...info(c.id), qty: c.qty }));
+    list.innerHTML = items.map(i => `<li class="review-item">
+      ${i.cover ? `<img src="${i.cover}" alt="">` : `<span class="review-ph">✦</span>`}
+      <div class="review-name">${esc(i.name)}${i.price ? `<small>$${i.price} each</small>` : ""}</div>
+      <label class="review-qty"><span class="sr">Quantity</span><select data-qty="${i.id}">${Array.from({ length: i.max }, (_, n) => `<option${n + 1 === i.qty ? " selected" : ""}>${n + 1}</option>`).join("")}</select></label>
+      <button type="button" class="review-remove" data-remove="${i.id}" aria-label="Remove ${esc(i.title)}">×</button></li>`).join("");
+    empty.hidden = items.length > 0;
+    const sum = items.reduce((t, i) => t + i.price * i.qty, 0);
+    const anyPhysical = items.some(i => i.physical);
+    total.hidden = !items.length;
+    total.innerHTML = `Subtotal <strong>$${sum}</strong>${anyPhysical ? " + shipping" : ""}`;
+    covers.innerHTML = items.filter(i => i.cover).slice(0, 6).map((i, n) =>
+      `<img src="${i.cover}" alt="" style="--n:${n};--r:${n % 2 ? 4 : -4}deg">`).join("");
+    covers.style.setProperty("--count", Math.min(6, items.filter(i => i.cover).length));
+    if (ship) { ship.hidden = !anyPhysical; ship.querySelector("input").disabled = !anyPhysical; }
+    if (printNote) printNote.hidden = !anyPhysical;
+    const lines = items.map(i => `${i.qty} × ${i.title}${i.id === "other" ? "" : ` (${i.o.dataset.kind === "art" ? "art print" : i.physical ? "printed zine" : "digital zine"})`}${i.price ? `, $${i.price * i.qty}` : ""}`);
+    field.value = lines.join("\n") + (items.length ? `\nSubtotal: $${sum}${anyPhysical ? " + shipping" : ""}` : "");
+    if (subject) subject.value = items.length ? `Order inquiry: ${items.reduce((t, i) => t + i.qty, 0)} item(s)` : "Order inquiry";
+    if (!edited) msg.value = !items.length ? "" : `Hi Hikaru! I'd like to order:\n${lines.map(l => "- " + l).join("\n")}`;
+  };
+  const add = id => {
+    if (!opts[id]) return;
+    const hit = cart.find(c => c.id === id);
+    if (hit) hit.qty = Math.min(hit.qty + 1, info(id).max); else cart.push({ id, qty: 1 });
+    render();
+  };
+  zineSelect.addEventListener("change", () => { add(zineSelect.value); zineSelect.value = ""; });
+  list.addEventListener("change", e => {
+    const id = e.target.dataset.qty; if (!id) return;
+    cart.find(c => c.id === id).qty = +e.target.value; render();
+  });
+  list.addEventListener("click", e => {
+    const id = e.target.closest("[data-remove]")?.dataset.remove; if (!id) return;
+    cart = cart.filter(c => c.id !== id); render();
+  });
   const wanted = new URLSearchParams(location.search).get("zine");
-  if (wanted && zineSelect.querySelector(`option[value="${CSS.escape(wanted)}"]`)) zineSelect.value = wanted;
-  zineSelect.addEventListener("change", sync);
-  sync();
+  if (wanted && opts[wanted] && !cart.some(c => c.id === wanted)) cart.push({ id: wanted, qty: 1 });
+  if (wanted) history.replaceState(null, "", location.pathname);
+  render();
+  cartApi = { count: () => cart.length, clear: () => { cart = []; edited = false; render(); } };
 }
 
 /* newsletter: hand the email to Substack's signup page */
