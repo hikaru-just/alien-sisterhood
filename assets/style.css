@@ -337,3 +337,7 @@ select.field option{color:#000}
 .form [hidden]{display:none}
 
 .lightbox[data-single] .nav-arrow{display:none}
+.love-band .wrap{grid-template-columns:1fr;max-width:760px;text-align:center}
+.love-band .label,.love-band .btns{justify-content:center}
+.love-band .lede{margin-inline:auto}
+.love-specs{margin-top:26px;font-size:16px;border-top-color:rgba(239,228,251,.2)}
