@@ -140,7 +140,7 @@ if (zineSelect) {
   const printNote = document.getElementById("order-print-note");
   const subject = form.querySelector('[name="_subject"]');
   const opts = {};
-  zineSelect.querySelectorAll("option[value]").forEach(o => { if (o.value) opts[o.value] = o; });
+  zineSelect.querySelectorAll("option[value]").forEach(o => { if (o.value && !o.disabled) opts[o.value] = o; });
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const save = c => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} };
   let cart = load().filter(i => opts[i.id]);
@@ -148,7 +148,7 @@ if (zineSelect) {
   msg.addEventListener("input", () => edited = true);
   const info = id => {
     const o = opts[id];
-    return { id, o, name: o.textContent, title: o.textContent.replace(/ \((printed zine|art print[^)]*)\)$/, ""),
+    return { id, o, name: o.textContent, title: o.textContent.replace(/ \((printed zine|art print)[^)]*\)$/, ""),
       price: +o.dataset.price || 0, max: +o.dataset.stock || 1, cover: o.dataset.cover || "",
       physical: !!o.dataset.print };
   };

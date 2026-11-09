@@ -393,3 +393,6 @@ select.field option{color:#000}
 .form .radio{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:15px}
 .radio input{width:20px;height:20px;accent-color:var(--lime);margin:0}
 .track-note{font-size:13px;opacity:.7}
+.sold-out .cover img{filter:grayscale(.6) opacity(.7)}
+.badge-out{background:var(--ink);color:#fff}
+.btn-out{background:transparent;border-color:var(--line);color:var(--ink);opacity:.6;cursor:default}
