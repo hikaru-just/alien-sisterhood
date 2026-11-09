@@ -402,3 +402,18 @@ select.field option{color:#000}
 .review-total small{opacity:.7}
 .review-name s,.more-row .was{opacity:.55;margin-right:2px}
 .more-row .was{font-size:14px}
+/* mail club */
+.plans{display:grid;gap:18px}
+.plan{background:var(--night-2);border-radius:22px;padding:26px 26px 28px;display:grid;gap:8px;justify-items:start;border:2px solid transparent}
+.plan-featured{border-color:var(--lime)}
+.plan-tag{font-family:var(--pixel);font-size:12px;color:var(--lime);display:inline-flex;gap:6px;align-items:center;text-transform:lowercase}
+.plan-tag .spark{width:12px;height:12px;fill:currentColor}
+.plan-name{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;color:var(--moon)}
+.plan-price{font-size:16px;opacity:.85}
+.plan-price strong{font-family:var(--pixel);font-weight:400;font-size:26px;color:var(--moon);opacity:1}
+.plan-desc{font-size:15px;opacity:.85;margin-bottom:8px}
+.plan-substack{background:transparent;border:2px dashed rgba(239,228,251,.25)}
+.mail-band{padding:clamp(80px,9vw,120px) 0;background:var(--lav-2);text-align:center}
+.mail-band .wrap{max-width:760px}
+.mail-band .label,.mail-band .btns{justify-content:center}
+.mail-band .lede{margin:20px auto 0}
