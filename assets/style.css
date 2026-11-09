@@ -341,3 +341,4 @@ select.field option{color:#000}
 .love-band .label,.love-band .btns{justify-content:center}
 .love-band .lede{margin-inline:auto}
 .love-specs{margin-top:26px;font-size:16px;border-top-color:rgba(239,228,251,.2)}
+.order-print-note a{color:var(--lime)}
