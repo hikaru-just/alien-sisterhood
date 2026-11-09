@@ -418,3 +418,8 @@ select.field option{color:#000}
 .mail-band .label,.mail-band .btns{justify-content:center}
 .mail-band .lede{margin:20px auto 0}
 .plan-desc a{color:var(--lime)}
+.other-comm{padding:clamp(80px,9vw,120px) 0;background:var(--lav);text-align:center}
+.other-comm .wrap{max-width:760px}
+.other-comm .label,.other-comm .btns{justify-content:center}
+.other-comm .lede{margin:20px auto 0}
+.nav{gap:clamp(18px,2.2vw,34px)}
