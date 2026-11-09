@@ -149,7 +149,7 @@ if (zineSelect) {
   const info = id => {
     const o = opts[id];
     return { id, o, name: o.textContent, title: o.textContent.replace(/ \((printed zine|art print)[^)]*\)$/, ""),
-      price: +o.dataset.price || 0, max: +o.dataset.stock || 1, cover: o.dataset.cover || "",
+      price: +o.dataset.price || 0, card: +o.dataset.cardPrice || 0, max: +o.dataset.stock || 1, cover: o.dataset.cover || "",
       physical: !!o.dataset.print };
   };
   const esc = t => t.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -158,7 +158,7 @@ if (zineSelect) {
     const items = cart.map(c => ({ ...info(c.id), qty: c.qty }));
     list.innerHTML = items.map(i => `<li class="review-item">
       ${i.cover ? `<img src="${i.cover}" alt="">` : `<span class="review-ph">✦</span>`}
-      <div class="review-name">${esc(i.name)}${i.price ? `<small>$${i.price} each</small>` : ""}</div>
+      <div class="review-name">${esc(i.name)}${i.price ? `<small>${i.card ? `<s>$${i.card}</s> ` : ""}$${i.price} each</small>` : ""}</div>
       <label class="review-qty"><span class="sr">Quantity</span><select data-qty="${i.id}">${Array.from({ length: i.max }, (_, n) => `<option${n + 1 === i.qty ? " selected" : ""}>${n + 1}</option>`).join("")}</select></label>
       <button type="button" class="review-remove" data-remove="${i.id}" aria-label="Remove ${esc(i.title)}">×</button></li>`).join("");
     empty.hidden = items.length > 0;
@@ -217,7 +217,7 @@ if (zineSelect) {
       const kind = i.o.dataset.kind === "art" ? "Art print" : i.physical ? "Printed zine" : "Digital zine";
       return `<li class="more-card"><button type="button" class="more-img" data-add-img="${id}" aria-label="Add ${esc(i.title)}"><img src="${i.cover}" alt="" loading="lazy"></button>
         <p class="more-kind">${kind}</p><h3 class="more-name">${esc(i.title)}</h3>
-        <p class="more-row"><span class="price">$${i.price}</span><button type="button" class="btn small lime" data-add="${id}">Add to order</button></p></li>`;
+        <p class="more-row"><span class="price">${i.card ? `<s class="was">$${i.card}</s> ` : ""}$${i.price}</span><button type="button" class="btn small lime" data-add="${id}">Add to order</button></p></li>`;
     }).join("");
     track.addEventListener("click", e => {
       const id = e.target.closest("[data-add],[data-add-img]")?.dataset; if (!id) return;

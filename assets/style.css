@@ -400,3 +400,5 @@ select.field option{color:#000}
 .buy-btns{display:flex;gap:8px;flex-wrap:wrap}
 .product .btn.ghost.small{color:var(--purple);border-color:var(--purple);background:transparent}
 .review-total small{opacity:.7}
+.review-name s,.more-row .was{opacity:.55;margin-right:2px}
+.more-row .was{font-size:14px}
