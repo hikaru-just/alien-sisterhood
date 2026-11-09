@@ -388,3 +388,8 @@ select.field option{color:#000}
 .ship-fields[hidden]{display:none}
 .ship-fields legend{font-family:var(--pixel);font-size:14px;letter-spacing:.06em;text-transform:lowercase;color:var(--lime);margin-bottom:4px}
 .field[readonly]{opacity:.7;cursor:default}
+.track-choice{display:grid;gap:10px;font-size:15px}
+.track-choice small{opacity:.6}
+.form .radio{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:15px}
+.radio input{width:20px;height:20px;accent-color:var(--lime);margin:0}
+.track-note{font-size:13px;opacity:.7}

@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,700;1,400&family=Shrikhand&family=Silkscreen&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style.css?v=13">
+<link rel="stylesheet" href="../assets/style.css?v=14">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -71,6 +71,12 @@
           <label><span>ZIP / postal code <small>(required)</small></span><input class="field" name="postal_code" autocomplete="postal-code" required></label>
           <label><span>Country</span><input class="field" name="country" value="United States" readonly></label>
         </div>
+        <div class="track-choice" role="radiogroup" aria-labelledby="track-label">
+          <span id="track-label">Tracking <small>(required)</small></span>
+          <label class="radio"><input type="radio" name="tracking" value="Yes, add tracking" required> Yes, add tracking</label>
+          <label class="radio"><input type="radio" name="tracking" value="No tracking"> No tracking</label>
+          <p class="track-note">Tracked shipping costs a little more. I'll include the exact rate in your payment email.</p>
+        </div>
       </fieldset>
       <p class="order-print-note" id="order-print-note">Printed zines &amp; art prints: I'll email you a payment link with your exact shipping rate. Please allow up to 3 business days for handling once paid.</p>
       <label><span>Message</span><textarea class="field" id="order-message" name="message" required></textarea></label>
@@ -121,6 +127,6 @@
     <div class="foot-bottom"><span>© <span data-year>2026</span> Alien Sisterhood. All artwork ©Alien Sisterhood — please do not repost, reproduce, or use without permission.</span><span>Human stories meet cosmos <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.3 5.7 11.4 12 12-6.3.6-11.4 5.7-12 12-.6-6.3-5.7-11.4-12-12C6.3 11.4 11.4 6.3 12 0z"/></svg></span></div>
   </div>
 </footer>
-<script src="../assets/site.js?v=13" defer></script>
+<script src="../assets/site.js?v=14" defer></script>
 </body>
 </html>

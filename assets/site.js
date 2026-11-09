@@ -117,7 +117,7 @@ document.querySelectorAll("form[data-contact]").forEach(form => {
         form.reset(); if (form.hasAttribute("data-order") && cartApi) cartApi.clear(); note.textContent = "Thank you! We'll be in touch within 24 hours.";
       } catch { note.textContent = "Something went wrong. Please email " + CONTACT_EMAIL + "."; }
     } else {
-      const body = `${d.order ? "Order:\n" + d.order + "\n" : ""}${d.address_line1 ? "Ship to:\n" + [d.address_line1, d.address_line2, [d.city, d.state, d.postal_code].filter(Boolean).join(", "), d.country].filter(Boolean).join("\n") + "\n" : ""}${d.order ? "\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
+      const body = `${d.order ? "Order:\n" + d.order + "\n" : ""}${d.address_line1 ? "Ship to:\n" + [d.address_line1, d.address_line2, [d.city, d.state, d.postal_code].filter(Boolean).join(", "), d.country].filter(Boolean).join("\n") + "\n" : ""}${d.tracking ? "Tracking: " + d.tracking + "\n" : ""}${d.order ? "\n" : ""}${d.message}\n\n— ${d.first_name} ${d.last_name}\n${d.email}${d.newsletter ? "\n(Would like news and updates)" : ""}`;
       location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent((d._subject || "Website message") + " from " + d.first_name)}&body=${encodeURIComponent(body)}`;
       note.textContent = "Opening your email app…";
     }
