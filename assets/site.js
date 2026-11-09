@@ -166,9 +166,9 @@ if (zineSelect) {
     const anyPhysical = items.some(i => i.physical);
     total.hidden = !items.length;
     const trackSel = form.querySelector('[name="tracking"]:checked');
-    const shipCost = !anyPhysical ? 0 : trackSel ? (trackSel.value.startsWith("Tracked") ? 15 : 5) : null;
+    const shipCost = !anyPhysical ? 0 : trackSel ? (trackSel.value.startsWith("Tracked") ? 10 : 5) : null;
     total.innerHTML = !anyPhysical ? `Total <strong>$${sum}</strong>`
-      : shipCost === null ? `Subtotal $${sum} + shipping <small>($5, or $15 tracked)</small>`
+      : shipCost === null ? `Subtotal $${sum} + shipping <small>($5, or $10 tracked)</small>`
       : `Subtotal $${sum} + shipping $${shipCost} = <strong>$${sum + shipCost}</strong>`;
     covers.innerHTML = items.filter(i => i.cover).slice(0, 6).map((i, n) =>
       `<img src="${i.cover}" alt="" style="--n:${n};--r:${n % 2 ? 4 : -4}deg">`).join("");
