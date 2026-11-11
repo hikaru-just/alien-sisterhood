@@ -423,3 +423,9 @@ select.field option{color:#000}
 .other-comm .label,.other-comm .btns{justify-content:center}
 .other-comm .lede{margin:20px auto 0}
 .nav{gap:clamp(18px,2.2vw,34px)}
+/* site-wide disclaimer */
+.disclaimer{background:var(--night);color:var(--moon);font-size:13px;line-height:1.5;padding:10px 0;border-bottom:1px solid rgba(239,228,251,.15)}
+.disclaimer p{max-width:none;margin:0;opacity:.9}
+.disclaimer strong{color:var(--lime);font-weight:700}
+.page{position:relative}
+@media (max-width:600px){.disclaimer{font-size:12px;padding:9px 0}}
