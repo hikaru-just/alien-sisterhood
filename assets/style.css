@@ -429,3 +429,4 @@ select.field option{color:#000}
 .disclaimer strong{color:var(--lime);font-weight:700}
 .page{position:relative}
 @media (max-width:600px){.disclaimer{font-size:12px;padding:9px 0}}
+.disclaimer.at-bottom{border-bottom:0;border-top:1px solid rgba(239,228,251,.15);padding:14px 0 18px}
